@@ -1,0 +1,27 @@
+services:
+    dbos:
+        image:  mysql
+        volumes:
+            - sql_storage: /var/lib/mysql
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: toor
+            MYSQL_USER: gurinder
+            MYSQL_PASSWORD: pswd
+            MYSQL_DATABASE: mydb
+    
+    wordpressos:
+        image: wordpress
+        restart: always
+        depends_on:
+            - dbos
+        ports:
+            - 8081:80
+        environment:
+            WORDPRESS_DB_HOST: dbos
+            WORDPRESS_DB_USER: gurinder
+            WORDPRESS_DB_PASSWORD: pswd
+            WORDPRESS_DB_NAME: mydb
+        volumes:
+            - wp_Storage: /var/www/html
+                         
